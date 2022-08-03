@@ -1,35 +1,26 @@
 package com.vti.rw41.Entity;
 
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Entity
-@ToString
-@Getter
-@Setter
-@Table(name = "product")
+@Data
+@Table(name = "products")
 public class Product{
     @Id
-    @GeneratedValue(generator = "productIdSeq") // sử dụng seq
-    @SequenceGenerator( // khai báo seq
-            sequenceName = "productIdSeq",// tên của sequence
-            name = "productIdSeq", // tên của sequence
-            initialValue = 1, // giá trị đầu tiên
-            allocationSize = 2) // bước nhảy
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "name")
-    private String productName;
+    private String name;
 
+    @Column(name = "price")
     private Double price;
-//    @Enumerated(EnumType.STRING)
-//    private ProductStatus statust;
-//    @ManyToOne
-//    private CategoryEntity category;
+
+    @Column(name = "password")
+    private String password;
 }

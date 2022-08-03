@@ -1,35 +1,23 @@
 package com.vti.rw41.service;
 
 import com.vti.rw41.Entity.Product;
-import com.vti.rw41.Repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.vti.rw41.dto.ProductRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductService {
-    @Autowired
-    ProductRepository productRepository;
+public interface ProductService {
 
-    public List<Product> getAllProduct() {
-        return productRepository.getAllProduct();
-    }
 
-    public Optional<Product> getProductById(Integer id) {
-        return productRepository.getProductById(id);
-    }
+   List<Product> getAllProduct();
 
-    public Product addProduct(Product product) {
-        return productRepository.addProduct(product);
-    }
+   Optional<Product> getProductById(Integer id);
 
-    public Optional<Product> deleteProduct(Integer id) {
-        return productRepository.deleteProduct(id);
-    }
+   Product addProduct(ProductRequest product);
 
-    public Optional<Product> updateProduct(Integer id, Product product) {
-        return productRepository.updateProduct(id, product);
-    }
+   Optional<Product> deleteProduct(Integer id);
+
+   Optional<Product> updateProduct(Integer id, ProductRequest product);
 }

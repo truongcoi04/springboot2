@@ -1,12 +1,13 @@
 package com.vti.rw41.controller;
 
 import com.vti.rw41.Entity.Department;
-import com.vti.rw41.dto.DepartmentDto;
+import com.vti.rw41.dto.DepartmentRequest;
 import com.vti.rw41.service.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class DepartmentController {
 
 //    @PostMapping
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public Department addDepartment(@RequestBody Department department) {
+    public Department addDepartment(@Valid @RequestBody DepartmentRequest department) {
         return departmentService.addDepartment(department);
     }
 
@@ -52,7 +53,7 @@ public class DepartmentController {
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Optional<Department> updateDepartment(@PathVariable Integer id, @RequestBody Department department) {
+    public Optional<Department> updateDepartment(@PathVariable Integer id, @RequestBody DepartmentRequest department) {
         log.info("getDepartmentById={}", id);
       return departmentService.updateDepartment(id, department);
     }

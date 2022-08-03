@@ -15,40 +15,40 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductController {
 
-    @PostMapping
-    public void receivedRequest(@RequestBody @Valid ProductRequest request) {
-        System.out.println(request);
+//    @PostMapping
+//    public void receivedRequest(@RequestBody @Valid ProductRequest request) {
+//        System.out.println(request);
+//    }
+
+
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
+    public List<Product> getAllProduct() {
+        return productService.getAllProduct();
     }
 
+    @GetMapping("/{id}")
+    public Optional<Product> getProductById(@PathVariable Integer id) {
+        log.info("getProductById={}", id);
+        return productService.getProductById(id);
+    }
 
-//    @Autowired
-//    private ProductService productService;
-//
-//    @GetMapping
-//    public List<Product> getAllProduct() {
-//        return productService.getAllProduct();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public Optional<Product> getProductById(@PathVariable Integer id) {
-//        log.info("getProductById={}", id);
-//        return productService.getProductById(id);
-//    }
-//
-//    @RequestMapping(value = "", method = RequestMethod.POST)
-//    public Product addProduct(@RequestBody Product product) {
-//        return productService.addProduct(product);
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    public Optional<Product> deleteProduct(@PathVariable Integer id) {
-//        log.info("getProductById={}", id);
-//        return productService.deleteProduct(id);
-//    }
-//
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    public Optional<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-//        log.info("getProductById={}", id);
-//        return productService.updateProduct(id, product);
-//    }
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public Product addProduct(@RequestBody @Valid ProductRequest product) {
+        return productService.addProduct(product);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Optional<Product> deleteProduct(@PathVariable Integer id) {
+        log.info("getProductById={}", id);
+        return productService.deleteProduct(id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Optional<Product> updateProduct(@PathVariable Integer id, @RequestBody ProductRequest product) {
+        log.info("getProductById={}", id);
+        return productService.updateProduct(id, product);
+    }
 }
