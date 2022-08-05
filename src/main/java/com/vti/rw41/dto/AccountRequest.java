@@ -23,7 +23,7 @@ public class AccountRequest {
 
     @NotNull
     @Length(min = 6,max = 12)
-    private String fullname;
+    private String fullName;
 
     @Past
     private LocalDate birthday;

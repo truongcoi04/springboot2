@@ -23,4 +23,7 @@ public class Product{
 
     @Column(name = "password")
     private String password;
+
+    @ManyToOne
+    private CategoryEntity category;
 }

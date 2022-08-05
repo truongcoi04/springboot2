@@ -5,6 +5,7 @@ import com.vti.rw41.dto.ProductRequest;
 import com.vti.rw41.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -23,6 +24,11 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+//    @GetMapping
+//    public Page<ProductDto>
+
+
 
     @GetMapping
     public List<Product> getAllProduct() {
