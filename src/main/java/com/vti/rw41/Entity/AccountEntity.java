@@ -18,7 +18,12 @@ public class AccountEntity {
 
     private String password;
 
+    private String phoneNumber;
+
     private String fullName;
 
     private LocalDate birthday;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }

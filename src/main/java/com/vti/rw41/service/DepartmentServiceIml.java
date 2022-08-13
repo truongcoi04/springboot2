@@ -3,6 +3,7 @@ package com.vti.rw41.service;
 import com.vti.rw41.Entity.Department;
 import com.vti.rw41.Repository.DepartmentRepository;
 import com.vti.rw41.dto.DepartmentRequest;
+import com.vti.rw41.exeption.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,9 @@ public class DepartmentServiceIml implements  DepartmentService{
 
     @Override
     public Optional<Department> getDepartmentById(Integer id) {
-        return departmentRepository.findById(id);
+        Department byId = departmentRepository.findById(id)
+                .orElseThrow(() -> new ApiException("department.not.exists"));
+        return Optional.of(byId);
     }
 
     @Override

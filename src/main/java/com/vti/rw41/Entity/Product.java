@@ -5,11 +5,13 @@ import lombok.Data;
 
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
 @Table(name = "products")
-public class Product{
+public class Product extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -21,8 +23,6 @@ public class Product{
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "password")
-    private String password;
 
     @ManyToOne
     private CategoryEntity category;

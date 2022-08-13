@@ -2,24 +2,23 @@ package com.vti.rw41.service;
 
 import com.vti.rw41.Entity.Product;
 import com.vti.rw41.Repository.ProductRepository;
+import com.vti.rw41.dto.ProductDto;
 import com.vti.rw41.dto.ProductRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceIml implements ProductService{
+public class ProductServiceIml implements ProductService {
 
     @Autowired
-   ProductRepository productRepository;
+    ProductRepository productRepository;
 
 
-    @Override
-    public List<Product> getAllProduct() {
-        return productRepository.findAll();
-    }
 
     @Override
     public Optional<Product> getProductById(Integer id) {
@@ -31,7 +30,6 @@ public class ProductServiceIml implements ProductService{
         Product product = new Product();
         product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());
-product.setPassword(productRequest.getPassword());
         return productRepository.save(product);
     }
 
@@ -48,9 +46,22 @@ product.setPassword(productRequest.getPassword());
         oldProduct.ifPresent(product -> {
             product.setName(productRequest.getName());
             product.setPrice(productRequest.getPrice());
-            product.setPassword(productRequest.getPassword());
             productRepository.save(product);
         });
         return oldProduct;
+    }
+
+    @Override
+    public Page<ProductDto> getAllProduct(Pageable pageable) {
+        return productRepository.findAll(pageable)
+                .map(product -> {
+                    ProductDto dto = new ProductDto();
+                    BeanUtils.copyProperties(product, dto);
+
+                   if (product.getCategory() != null){
+                       dto.setCategory(product.getCategory().getName());
+                   }
+                    return dto;
+                });
     }
 }

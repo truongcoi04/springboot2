@@ -6,6 +6,8 @@ import com.vti.rw41.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.openmbean.OpenDataException;
@@ -19,6 +21,11 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+    @GetMapping("/principal")
+    public UserDetails getCurrentAccount(@AuthenticationPrincipal UserDetails principal) {
+        return principal;
+    }
+
     @PostMapping("/register")
     public AccountEntity registerAccount(@Valid @RequestBody AccountRequest request) {
         return accountService.registerAccount(request);
@@ -28,7 +35,7 @@ public class AccountController {
         return accountService.getAccountById(accountId);
     }
     @GetMapping("/like/{name}")
-    public List<AccountEntity> getAccountById(@PathVariable String name){
+    public List<AccountEntity> getAccountByName(@PathVariable String name){
         return accountService.getAccountByName(name);
     }
 

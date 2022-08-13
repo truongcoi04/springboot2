@@ -18,7 +18,4 @@ public class ProductRequest {
     @Positive
     private Double price;
 
-    @NotNull
-    @Password
-    private String password;
 }

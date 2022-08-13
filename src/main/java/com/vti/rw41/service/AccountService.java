@@ -2,12 +2,16 @@ package com.vti.rw41.service;
 
 import com.vti.rw41.Entity.AccountEntity;
 import com.vti.rw41.Entity.Department;
+import com.vti.rw41.Entity.Product;
 import com.vti.rw41.Repository.AccountRepository;
 import com.vti.rw41.Repository.DepartmentRepository;
+import com.vti.rw41.Repository.ProductRepository;
 import com.vti.rw41.dto.AccountRequest;
+import com.vti.rw41.exeption.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,7 +24,10 @@ public class AccountService {
     AccountRepository accountRepository;
 
     @Autowired
-    DepartmentRepository departmentRepository;
+    ProductRepository productRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     @Transactional
@@ -28,21 +35,27 @@ public class AccountService {
 
         AccountEntity account = new AccountEntity();
         account.setEmail(request.getEmail());
-        account.setPassword(request.getPassword());
+        String encode = passwordEncoder.encode(request.getPassword());
+        account.setPassword(encode);
         account.setFullName(request.getFullName());
         account.setBirthday(request.getBirthday());
-        AccountEntity save = accountRepository.save(account);
+        accountRepository.save(account);
 
-        Department department = new Department();
-        department.setDepartmentName("Test transactional");
-        departmentRepository.save(department);
+//        Product product = new Product();
+//        product.setName("Tôi là người máy");
+//        product.setPrice(5.0);
+//        productRepository.save(product);
 
         return account;
     }
 
 
     public Optional<AccountEntity> getAccountById(Integer accountId) {
-        return accountRepository.findById(accountId);
+        Optional<AccountEntity> accountEntity = accountRepository.findById(accountId);
+        if (accountEntity.isEmpty()) {
+            throw new ApiException("Account.not.exists");
+        }
+        return accountEntity;
     }
 
     public List<AccountEntity> getAccountByName(String name) {
@@ -52,6 +65,10 @@ public class AccountService {
     public Page<AccountEntity> getAllAccounts(Pageable pageable) {
         return accountRepository.findAll(pageable);
     }
+
+
+
+
 
 
 }
